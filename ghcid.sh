@@ -1,0 +1,1 @@
+ghcid -W -c "cabal new-repl myfirstapp" -T Main.main

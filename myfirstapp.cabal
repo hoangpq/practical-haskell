@@ -1,0 +1,68 @@
+cabal-version:      3.0
+name:               myfirstapp
+version:            0.1.0.0
+
+
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            NONE
+author:             hoangpq
+maintainer:         Vampire
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files: CHANGELOG.md
+
+executable myfirstapp
+    main-is:            Main.hs
+    default-extensions: OverloadedStrings BlockArguments QuasiQuotes
+                        TypeApplications ScopedTypeVariables 
+    ghc-options:        -Wall -fdefer-typed-holes -threaded
+    -- Modules included in this executable, other than Main.
+    other-modules:
+      Github.Request
+      Api.Server
+      Api.Query
+      Api.Structure
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:      base >= 4.7 && <5 
+                      , sockets-and-pipes ^>= 0.3 
+                      , network-simple ^>= 0.4.5
+                      , time ^>= 1.12.2
+                      , attoparsec ^>= 0.14.4
+                      , transformers ^>= 0.5.6.2
+                      , string-conversions ^>= 0.4.0.1
+                      , http-conduit ^>= 2.3.8
+                      , http-types ^>= 0.12.3
+                      , bytestring
+                      , http-client-tls ^>= 0.3.6.1
+                      , errors ^>= 2.3.0
+                      , mtl ^>= 2.2.2
+                      , hslua ^>= 2.2.1
+                      , monad-control ^>= 1.0.3.1
+                      , lens ^>= 5.2
+                      , random ^>= 1.2.1.1
+                      , hasql ^>= 1.6.3
+                      , containers ^>= 0.6.4.1
+                      , hasql-th ^>= 0.4.0.18
+                      , vector ^>= 0.13.0.0
+                      , warp, wai ^>= 3.2.3
+                      , wai-extra, wai-cors
+                      , http-types ^>= 0.12.3
+                      , contravariant-extras
+                      , stm
+                      , websockets
+    hs-source-dirs:     app
+    -- extra-lib-dirs: zig-out/lib/
+    -- extra-libraries: example
+    default-language:   Haskell2010

@@ -1,0 +1,9 @@
+lib/
+dist-newstyle/
+bin/
+target/
+.metals/
+zig-out/
+zig-cache
+scalaz_working/target/
+*.class

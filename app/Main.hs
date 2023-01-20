@@ -757,11 +757,8 @@ runWs = do
   P.putStrLn "Running wrk websocket server or port 9160"
   WS.runServer "0.0.0.0" 9160 $ benchWsApp lock
 
-main = runWs
-
-{-
 main :: IO ()
 main = do
   Just conn <- getConnection
   run 4000 (app conn)
--}
+

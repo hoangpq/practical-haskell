@@ -5,5 +5,5 @@ target/
 .metals/
 zig-out/
 zig-cache
-scalaz_working/target/
 *.class
+scalaz_working/project/target/

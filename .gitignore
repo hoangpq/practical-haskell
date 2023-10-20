@@ -7,3 +7,4 @@ zig-out/
 zig-cache
 *.class
 scalaz_working/project/target/
+.DS_Store

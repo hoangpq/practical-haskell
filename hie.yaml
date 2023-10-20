@@ -1,4 +1,4 @@
 cradle:
   cabal:
     - path: "app/Main.hs"
-      component: "myfirstapp:exe:myfirstapp"
+      component: "practical-haskell:exe:practical-haskell"

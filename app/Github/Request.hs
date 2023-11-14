@@ -22,7 +22,7 @@ import Network.HTTP.Client.TLS (setGlobalManager)
 import qualified Data.ByteString.Lazy as LBS
 import Data.String.Conversions (cs)
 
-import GHC.Generics
+-- import GHC.Generics
 
 -- StateT s IO
 type VState = StateT Int IO
@@ -236,12 +236,12 @@ instance FromJSON CatBoy where
 instance ToJSON CatBoy where
   toEncoding = J.genericToEncoding J.defaultOptions
 
-getJSONData :: IO (Either String CatBoy)
-getJSONData = do
+getUserData :: String -> IO (Either String GithubUser)
+getUserData username = do
   manager <- newManager tlsManagerSettings
   setGlobalManager manager
 
-  initialRequest <- parseRequest "https://api.catboys.com/baka"
+  initialRequest <- parseRequest $ "https://api.github.com/users/" <> username
   let request = initialRequest 
         { method = "GET"
         , requestHeaders = 
@@ -255,3 +255,11 @@ getJSONData = do
     else do
       let body = getResponseBody response
       return $ eitherDecode body
+
+jsonUserFromGithub :: String -> IO ()
+jsonUserFromGithub username = do
+  user <- getUserData username
+  case user of
+    Right u -> P.print $ followers u
+    Left e -> putStrLn e
+

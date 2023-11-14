@@ -32,6 +32,8 @@ executable practical-haskell
       Api.Server
       Api.Query
       Api.Structure
+      People
+      Parser
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -63,6 +65,17 @@ executable practical-haskell
                       , list-transformer
                       , stm
                       , websockets
+                      , foldl
+                      , unordered-containers
+                      , hashable
+                      , regex-tdfa ^>= 1.3.2
+                      , regex-applicative
+                      , aeson
+                      , deriving-aeson
+                      , binary
+                      , validation
+                      , megaparsec
+                      , parser-combinators
     hs-source-dirs:     app
     -- extra-lib-dirs: zig-out/lib/
     -- extra-libraries: example

@@ -1,25 +1,29 @@
 const std = @import("std");
+const FileSource = std.build.FileSource;
+const OptimizeMode = std.builtin.OptimizeMode;
 
-pub fn build(b: *std.build.Builder) void {
-    const mode = b.standardReleaseOptions();
+pub fn build(b: *std.Build) void {
+    const target = b.standardTargetOptions(.{});
+    const optimize = b.standardOptimizeOption(.{});
 
-    const lib = b.addSharedLibrary("example", "src/main.zig", b.version(0, 0, 1));
-    lib.setBuildMode(mode);
+    // const lib = b.addSharedLibrary("example", "src/main.zig", b.version(0, 0, 1));
+    const lib = b.addSharedLibrary(.{
+        .name = "example",
+        .root_source_file = .{ .path = "src/main.zig" },
+        .optimize = optimize,
+        .target = target
+    });
+
     lib.linkLibC(); // Needed for linking with libc
-    switch (mode) {
-        // This includes the compiler runtime (Zig runtime checks):
-        .Debug, .ReleaseSafe => lib.bundle_compiler_rt = true,
-        // This turns off the checks completely for release mode:
-        .ReleaseFast, .ReleaseSmall => lib.disable_stack_probing = true,
-    }
-    lib.install();
+    b.installArtifact(lib);
 
-    const main_tests = b.addTest("src/main.zig");
-    // Depending on how you set up your Zig code,
-    // you may need to link with libc in your tests as well:
-    main_tests.linkLibC();
-    main_tests.setBuildMode(mode);
+    const unit_tests = b.addTest(.{
+        .root_source_file = .{ .path = "src/main.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+    const run_unit_tests = b.addRunArtifact(unit_tests);
 
-    const test_step = b.step("test", "Run library tests");
-    test_step.dependOn(&main_tests.step);
+    const test_step = b.step("test","Run unit tests");
+    test_step.dependOn(&run_unit_tests.step);
 }

@@ -111,8 +111,12 @@ import Control.Concurrent (forkIO)
 import Control.Lens
 import qualified Data.Aeson as J
 
-import Github.Request (eval, getJSONData)
-import Github.Request (followers)
+import Github.Request (eval)
+import Github.Request (followers, getUserData)
+
+import Control.Monad (guard)
+
+import qualified Data.Sequence as Seq
 
 -- foreign import ccall "example_create" createExample
 --   :: IO (Ptr Example)
@@ -743,7 +747,7 @@ benchWsApp _ pending = do
     forever $ do
       _ <- WS.receive conn
       fork_ $ do
-        eU <- getJSONData
+        eU <- getUserData "hoangpq"
         case eU of
           Right u -> WS.sendTextData conn (J.encode u)
           _ -> WS.sendTextData conn (T.pack "()")
@@ -756,6 +760,19 @@ runWs = do
   lock <- TMVar.newEmptyTMVarIO
   P.putStrLn "Running wrk websocket server or port 9160"
   WS.runServer "0.0.0.0" 9160 $ benchWsApp lock
+
+validNumber :: Int -> Maybe Int
+validNumber age = do
+  guard (age > 0)
+  return age
+
+elem_ :: (Eq a, Foldable t) => a -> t a -> Bool
+e `elem_` xs = getAny $ foldMap (\x -> Any (x == e)) xs
+
+seq_ :: Seq Int
+seq_ =
+  let s = Seq.singleton 1
+  in 2 Seq.<| s
 
 main :: IO ()
 main = do
